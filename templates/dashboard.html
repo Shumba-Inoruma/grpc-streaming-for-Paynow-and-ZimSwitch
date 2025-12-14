@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Pay Now Live Payment Dashboard</title>
+  <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; }
+    h1 { color: #333; }
+    .counter { font-size: 20px; margin: 10px 0; }
+    .service { font-weight: bold; }
+  </style>
+</head>
+<body>
+  <h1>Paynow Live Payment Dashboard</h1>
+
+  <div class="counter">Total Transactions: <span id="total_transactions">{{ total_transactions }}</span></div>
+  <div class="counter">Total Amount: $<span id="total_amount">{{ total_amount }}</span></div>
+
+  <div class="counter">Ecocash: <span id="ecocash_count">{{ total_ecocash }}</span></div>
+  <div class="counter">OneMoney: <span id="onemoney_count">{{ total_onemoney }}</span></div>
+  <div class="counter">ZESA: <span id="zesa_count">{{ total_zesa }}</span></div>
+
+  <script>
+    const socket = io(); // open WebSocket connection
+
+    const totalTransactionsEl = document.getElementById("total_transactions");
+    const totalAmountEl = document.getElementById("total_amount");
+    const ecocashEl = document.getElementById("ecocash_count");
+    const onemoneyEl = document.getElementById("onemoney_count");
+    const zesaEl = document.getElementById("zesa_count");
+
+    // Update counters when server emits new stats
+    socket.on("update_stats", (data) => {
+      totalTransactionsEl.innerText = data.total_transactions;
+      totalAmountEl.innerText = data.total_amount.toFixed(2);
+      ecocashEl.innerText = data.total_ecocash;
+      onemoneyEl.innerText = data.total_onemoney;
+      zesaEl.innerText = data.total_zesa;
+    });
+  </script>
+</body>
+</html>

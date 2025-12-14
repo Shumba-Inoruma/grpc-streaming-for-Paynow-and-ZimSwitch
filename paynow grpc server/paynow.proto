@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+service PayNow {
+  rpc StreamPayments(stream Payment) returns (Ack);
+}
+
+message Payment {
+  string client_id = 1;
+  string service = 2; 
+  double amount = 3;
+}
+
+message Ack {
+  bool received = 1;
+}
