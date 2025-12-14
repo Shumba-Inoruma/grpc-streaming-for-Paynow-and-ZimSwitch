@@ -1,0 +1,39 @@
+global:
+  scrape_interval: 5s
+  scrape_timeout: 10s
+
+scrape_configs:
+
+  - job_name: 'node_exporters'
+    static_configs:
+      - targets:
+          - main-backup:9100
+          - epc-gateway:9100
+          - voip-server:9100
+          - erp-server:9100
+          - payments-server:9100
+          - dev-server:9100
+          - staging-server:9100
+          - git-server:9100
+
+  - job_name: 'blackbox_http'
+    metrics_path: /probe
+    params:
+      module: [icmp]
+    static_configs:
+      - targets:
+          - main-backup
+          - epc-gateway
+          - voip-server
+          - erp-server
+          - payments-server
+          - dev-server
+          - staging-server
+          - git-server
+    relabel_configs:
+      - source_labels: [__address__]
+        target_label: __param_target
+      - source_labels: [__param_target]
+        target_label: instance
+      - target_label: __address__
+        replacement: '127.0.0.1:9115'  

@@ -8,7 +8,7 @@ stub = paynow_pb2_grpc.PayNowStub(channel)
 
 # Prepare a list of payments
 payments = []
-payments.append(paynow_pb2.Payment(client_id="Munyaradzi Chirove", service="ZESA", amount=10.0))
+payments.append(paynow_pb2.Payment(client_id="Munyaradzi Chirove", service="Ecocash", amount=10.0))
 
 # Stream payments to the server
 response = stub.StreamPayments(iter(payments))
